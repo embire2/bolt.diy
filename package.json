@@ -7,12 +7,13 @@
   "type": "module",
   "version": "1.0.0",
   "author": {
-    "name": "bolt.diy team",
-    "email": "maintainers@bolt.diy"
+    "name": "bolt.gives team",
+    "email": "maintainers@bolt.gives"
   },
   "scripts": {
     "deploy": "npm run build && wrangler pages deploy",
     "build": "remix vite:build",
+    "build:highmem": "NODE_OPTIONS=--max-old-space-size=6142 remix vite:build",
     "dev": "node pre-start.cjs  && remix vite:dev",
     "test": "vitest --run",
     "test:watch": "vitest",
@@ -141,7 +142,6 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^4.6.1",
-    "react-icons": "^5.4.0",
     "react-markdown": "^9.0.1",
     "react-qrcode-logo": "^3.0.0",
     "react-resizable-panels": "^2.1.7",

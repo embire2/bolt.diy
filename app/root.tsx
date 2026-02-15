@@ -5,9 +5,7 @@ import tailwindReset from '@unocss/reset/tailwind-compat.css?url';
 import { themeStore } from './lib/stores/theme';
 import { stripIndents } from './utils/stripIndent';
 import { createHead } from 'remix-island';
-import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useEffect, lazy, Suspense } from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
 import { cssTransition, ToastContainer } from 'react-toastify';
 
@@ -16,6 +14,16 @@ import globalStyles from './styles/index.scss?url';
 import xtermStyles from '@xterm/xterm/css/xterm.css?url';
 
 import 'virtual:uno.css';
+
+const LazyDndProvider = lazy(async () => {
+  const { DndProvider } = await import('react-dnd');
+  const { HTML5Backend } = await import('react-dnd-html5-backend');
+  return {
+    default: ({ children }: { children: React.ReactNode }) => (
+      <DndProvider backend={HTML5Backend}>{children}</DndProvider>
+    ),
+  };
+});
 
 const toastAnimation = cssTransition({
   enter: 'animated fadeInRight',
@@ -80,7 +88,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <ClientOnly>{() => <DndProvider backend={HTML5Backend}>{children}</DndProvider>}</ClientOnly>
+      <ClientOnly>
+        {() => (
+          <Suspense fallback={<div>{children}</div>}>
+            <LazyDndProvider>{children}</LazyDndProvider>
+          </Suspense>
+        )}
+      </ClientOnly>
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (

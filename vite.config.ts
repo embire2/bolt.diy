@@ -18,6 +18,23 @@ export default defineConfig((config) => {
     },
     build: {
       target: 'esnext',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+            'remix-vendor': ['@remix-run/react', '@remix-run/node', '@remix-run/cloudflare'],
+            'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip'],
+            'editor-vendor': [
+              '@codemirror/state',
+              '@codemirror/view',
+              '@codemirror/language',
+              '@codemirror/search',
+            ],
+            'radix-vendor': ['@radix-ui/react-checkbox', '@radix-ui/react-switch'],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 1000,
     },
     plugins: [
       nodePolyfills({

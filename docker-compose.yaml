@@ -1,6 +1,6 @@
 services:
   app-prod:
-    image: bolt-ai:production
+    image: bolt-gives-ai:production
     build:
       context: .
       dockerfile: Dockerfile
@@ -36,7 +36,7 @@ services:
       - production
 
   app-dev:
-    image: bolt-ai:development
+    image: bolt-gives-ai:development
     build:
       context: .
       dockerfile: Dockerfile
@@ -80,7 +80,7 @@ services:
     profiles: ['development', 'default']
 
   app-prebuild:
-    image: ghcr.io/stackblitz-labs/bolt.diy:latest
+    image: ghcr.io/bolt.gives/bolt.gives:latest
     ports:
       - '5173:5173'
     environment:
